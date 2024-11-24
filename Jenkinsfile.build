@@ -1,0 +1,92 @@
+
+
+@Library('ot-central-ci') _
+def cipipeline = new opstree.ci.templates.golang_ci.golang_ci()
+node {
+  cipipeline.call([
+ 
+    // WORKSPACE MANAGEMENT
+    clean_workspace: true,
+    ignore_clean_workspace_failure: false,
+    delete_dirs: false,
+    clean_when_build_aborted: true, 
+    clean_when_build_failed: true,
+    clean_when_not_built: true,
+    clean_when_build_succeed: true,
+    clean_when_build_unstable: true,
+ 
+    // VCS MANAGEMENT 
+    repo_https_url: "https://github.com/Ashutosh-OT/Opstree-Go-WebApp.git",
+    repo_ssh_url: "git@github.com:Ashutosh-OT/Opstree-Go-WebApp.git",
+    repo_branch: "Updating_JenkinsFile",
+    repo_url_type: "http",
+    jenkins_git_creds_id: "git-creds",
+    source_code_path: "/",
+ 
+    // Dependency Scanning (Optional for Go)
+    dependency_check: true,
+    dependency_scan_tool: "owasp",
+    owasp_project_name: "owasp",
+    owasp_report_publish: true,
+    owasp_report_format: "json",
+    fail_job_if_dependency_returned_exception: true,
+ 
+    // Creds Scanning
+    gitleaks_check: true,
+    fail_job_if_leak_detected: false,
+    gitleaks_report_format: "html",
+    gitleaks_report_jenkins_publish: true,
+ 
+    // Build
+    perform_code_build: true,
+    build_tool: "go",
+    codeartifact_dependency: false,
+    codeartifact_domain: "test",
+    codeartifact_owner: "384961893048",
+    go_version: "1.20",
+ 
+    // Unit Testing
+    unit_testing_check: true,
+    fail_job_if_unit_issue_detected: false,
+    source_code_path: ".",
+    test_reports_path: ".",
+ 
+    // Static Code Analysis
+    static_code_analysis_check: false,
+    codebase_to_scan_directory: "/",
+    fail_job_if_analysis_returned_exception: false,
+    sonar_properties_path: "sonar.properties",
+    jenkins_sonarqube_token_creds_id: "sonarqube-token",
+ 
+    // Build Dockerfile
+    perform_build_dockerfile: true,
+    image_name: "golang-app",
+    dockerfile_location: "/Dockerfile",
+    dockerfile_context: "",
+ 
+    // Image scanning
+    image_scanning_check: true,
+    image_tag: "latest",
+    scan_severity: "CRITICAL",
+    image_scanning_report_publish: true,
+ 
+    // Image size validator
+    image_size_validator_check: true,
+    max_allowed_image_size: 100,
+    fail_job_if_validation_fail: true,
+ 
+    // Publish Artifact (Docker Image)
+    artifact_publish_check: true,
+    artifact_destination_type: "ecr",
+    docker_image_name: "golang-app",
+    ecr_repo_name: "test",
+    ecr_region: "us-east-1",
+    account_id: "384961893048",
+ 
+    // Notification
+    notification_enabled: false,
+    notification_channel: "teams",
+    webhook_url_creds_id: "teams_webhook"
+  ])
+}
+
