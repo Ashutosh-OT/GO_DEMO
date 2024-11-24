@@ -38,7 +38,7 @@ node {
     gitleaks_report_jenkins_publish: true,
  
     // Build
-    perform_code_build: false,
+    perform_code_build: true,
     build_tool: "go",
     codeartifact_dependency: false,
     codeartifact_domain: "test",
