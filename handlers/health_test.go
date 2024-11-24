@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 )
 
@@ -20,7 +21,8 @@ func TestHealthHandler(t *testing.T) {
 	}
 
 	expected := `{"status":"Healthy"}`
-	if rec.Body.String() != expected {
-		t.Errorf("Expected body %s; got %s", expected, rec.Body.String())
+	actual := strings.TrimSpace(rec.Body.String())
+	if actual != expected {
+		t.Errorf("Expected body '%s'; got '%s'", expected, actual)
 	}
 }
