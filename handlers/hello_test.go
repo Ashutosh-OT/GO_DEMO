@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 )
 
@@ -15,12 +16,15 @@ func TestHelloHandler(t *testing.T) {
 	rec := httptest.NewRecorder()
 	HelloHandler(rec, req)
 
+	// Check HTTP status code
 	if rec.Code != http.StatusOK {
 		t.Errorf("Expected status OK; got %v", rec.Code)
 	}
 
+	// Check response body
 	expected := `{"message":"Hello, World!"}`
-	if rec.Body.String() != expected {
-		t.Errorf("Expected body %s; got %s", expected, rec.Body.String())
+	actual := strings.TrimSpace(rec.Body.String())
+	if actual != expected {
+		t.Errorf("Expected body '%s'; got '%s'", expected, actual)
 	}
 }
