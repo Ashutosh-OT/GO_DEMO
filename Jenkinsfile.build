@@ -18,7 +18,7 @@ node {
     // VCS MANAGEMENT 
     repo_https_url: "https://github.com/Ashutosh-OT/GO_DEMO.git",
     repo_ssh_url: "git@github.com:Ashutosh-OT/GO_DEMO.git",
-    repo_branch: "Updating_JenkinsFile",
+    repo_branch: "main",
     repo_url_type: "http",
     jenkins_git_creds_id: "git-creds",
     source_code_path: "/",
